@@ -4,7 +4,6 @@ export default function AboutPage() {
     return (
         <div className="min-h-screen bg-background">
             <div className="container mx-auto px-6 py-16 max-w-4xl">
-                {/* Hero Section */}
                 <div className="text-center mb-16">
                     <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-orange-500 to-pink-600 bg-clip-text text-transparent mb-6">
                         About Foodify
@@ -14,7 +13,6 @@ export default function AboutPage() {
                     </p>
                 </div>
 
-                {/* Mission & Story */}
                 <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
                     <div>
                         <h2 className="text-3xl font-bold mb-4">Our Mission</h2>
@@ -28,7 +26,6 @@ export default function AboutPage() {
                     </div>
                 </div>
 
-                {/* Features/Grid */}
                 <div className="mb-20">
                     <h2 className="text-3xl font-bold text-center mb-10">Why Choose Foodify?</h2>
                     <div className="grid md:grid-cols-3 gap-8">
@@ -50,7 +47,6 @@ export default function AboutPage() {
                     </div>
                 </div>
 
-                {/* Call to Action */}
                 <div className="text-center">
                     <p className="text-lg text-muted-foreground mb-8">
                         Ready to explore amazing food?
