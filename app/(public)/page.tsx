@@ -63,7 +63,6 @@ export default function DashboardPage() {
                     </div>
                 </div>
 
-                {/* Dummy Activity Section */}
                 <div className="bg-card rounded-3xl shadow-xl p-10 border border-border">
                     <h2 className="text-3xl font-bold mb-8 text-center">Recent Activity</h2>
                     <p className="text-center text-muted-foreground text-lg">
