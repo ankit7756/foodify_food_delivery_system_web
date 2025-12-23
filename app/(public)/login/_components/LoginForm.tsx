@@ -21,7 +21,6 @@ export default function LoginForm() {
 
     const onSubmit = (data: LoginData) => {
         startTransition(async () => {
-            // Dummy delay to simulate API call
             await new Promise((resolve) => setTimeout(resolve, 1000));
             console.log("Login submitted:", data);
             router.push("/auth/dashboard");
