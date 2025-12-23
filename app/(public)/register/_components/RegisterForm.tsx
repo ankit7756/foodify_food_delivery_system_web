@@ -70,7 +70,6 @@ export default function RegisterForm() {
                 />
                 {errors.password && <p className="text-sm text-red-600">{errors.password.message}</p>}
             </div>
-
             <div className="space-y-2">
                 <label htmlFor="confirmPassword" className="block text-sm font-medium">
                     Confirm Password
