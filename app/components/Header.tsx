@@ -206,7 +206,6 @@ export default function Header() {
                         </Link>
                     </div>
 
-                    {/* Desktop Nav Links */}
                     <div className="hidden md:flex items-center justify-center flex-1">
                         <div className="flex items-center gap-2 bg-muted/50 rounded-full p-1">
                             {NAV_LINKS.map((link) => (
@@ -225,9 +224,7 @@ export default function Header() {
                         </div>
                     </div>
 
-                    {/* Right Side: Auth Buttons + Theme + Mobile Menu */}
                     <div className="flex items-center gap-3">
-                        {/* Desktop Auth Buttons */}
                         <div className="hidden sm:flex items-center gap-3">
                             <Link
                                 href="/login"
@@ -247,7 +244,6 @@ export default function Header() {
 
                         <ThemeToggle />
 
-                        {/* Mobile Hamburger */}
                         <button
                             onClick={() => setMobileOpen(!mobileOpen)}
                             className="md:hidden p-2 rounded-lg hover:bg-accent transition-colors"
@@ -271,7 +267,6 @@ export default function Header() {
                     </div>
                 </div>
 
-                {/* Mobile Menu Panel */}
                 <div
                     className={`md:hidden overflow-hidden transition-all duration-300 ${mobileOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
                         }`}
