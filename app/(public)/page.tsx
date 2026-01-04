@@ -1,36 +1,3 @@
-// export default function DashboardPage() {
-//     return (
-//         <div className="min-h-screen bg-background">
-//             <div className="container mx-auto px-6 py-12 max-w-5xl">
-//                 <div className="text-center mb-12">
-//                     <h1 className="text-5xl font-bold bg-gradient-to-r from-orange-500 to-pink-600 bg-clip-text text-transparent mb-4">
-//                         Welcome to Your Dashboard! 🎉
-//                     </h1>
-//                     <p className="text-xl text-muted-foreground">
-//                         You're successfully logged in to Foodify.
-//                     </p>
-//                 </div>
-
-//                 {/* Dummy Stats Cards */}
-//                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 my-16">
-//                     <div className="bg-card rounded-2xl shadow-lg p-8 border border-border text-center">
-//                         <h3 className="text-4xl font-bold text-orange-600">42</h3>
-//                         <p className="text-muted-foreground mt-2">Orders This Month</p>
-//                     </div>
-//                     <div className="bg-card rounded-2xl shadow-lg p-8 border border-border text-center">
-//                         <h3 className="text-4xl font-bold text-pink-600">18</h3>
-//                         <p className="text-muted-foreground mt-2">Favorite Restaurants</p>
-//                     </div>
-//                     <div className="bg-card rounded-2xl shadow-lg p-8 border border-border text-center">
-//                         <h3 className="text-4xl font-bold text-purple-600">95%</h3>
-//                         <p className="text-muted-foreground mt-2">Satisfaction Rate</p>
-//                     </div>
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// }
-
 import Link from "next/link";
 
 export default function DashboardPage() {
@@ -40,10 +7,10 @@ export default function DashboardPage() {
                 {/* Welcome Hero */}
                 <div className="text-center mb-16">
                     <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r from-orange-500 to-pink-600 bg-clip-text text-transparent mb-6">
-                        Welcome Back! 🎉
+                        Welcome To Foodify! 🎉
                     </h1>
                     <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
-                        You're logged into Foodify. Here's your quick overview.
+                        Register now for easy order and instant delivery. Here's your overview.
                     </p>
                 </div>
 

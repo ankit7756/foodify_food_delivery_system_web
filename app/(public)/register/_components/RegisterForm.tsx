@@ -37,7 +37,7 @@ export default function RegisterForm() {
                     {...register("name")}
                     type="text"
                     id="name"
-                    placeholder="Lionel Messi"
+                    placeholder="Ankit Sharma"
                     className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-foreground/50"
                 />
                 {errors.name && <p className="text-sm text-red-600">{errors.name.message}</p>}
