@@ -1,36 +1,124 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🍔 Foodify – Food Ordering & Delivery System
 
-## Getting Started
+Foodify is a full-stack food ordering and delivery system designed to demonstrate modern web application development using **Next.js**, **Node.js**, **Express**, and **MongoDB**.  
+The project follows clean architecture principles with clear separation between frontend and backend.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Project Overview
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Foodify allows users to:
+- Register and log in securely
+- Access a protected dashboard after authentication
+- Experience a modern UI with form validation and theming
+- Interact with a backend API built using industry-standard patterns
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+This project is built for learning, scalability, and maintainability.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🧱 Architecture Overview
 
-To learn more about Next.js, take a look at the following resources:
+The project is structured as a **monorepo** with separate frontend and backend applications:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Foodify/
+└── foodify_food_ordering_and_delivery_system/
+├── app/ # Frontend (Next.js)
+└── backend/ # Backend (Express + MongoDB)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🎨 Frontend (Next.js)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The frontend is built using **Next.js App Router** with component-based architecture and client-side validation.
+
+### Key Features
+- Next.js (App Router)
+- TypeScript
+- Tailwind CSS
+- Zod validation
+- react-hook-form
+- Light / Dark theme toggle
+- Clean folder separation
+- Dummy authentication flow (UI-focused)
+
+### Main Routes
+- `/` – Home page
+- `/login` – Login page
+- `/register` – Registration page
+- `/auth/dashboard` – Protected dashboard (dummy)
+
+---
+
+## 🔐 Backend (Node.js & Express)
+
+The backend is a RESTful API responsible for authentication and user management.
+
+### Key Features
+- Node.js & Express
+- TypeScript
+- MongoDB with Mongoose
+- JWT-based authentication
+- Password hashing using bcrypt
+- Zod DTO validation
+- Clean layered architecture:
+  - Routes
+  - Controllers
+  - Services
+  - Repositories
+  - Models
+  - DTOs
+
+### Authentication APIs
+- `POST /api/auth/register` – Register a new user
+- `POST /api/auth/login` – Login user and generate JWT
+
+---
+
+## 🗄 Database
+
+- **MongoDB**
+- Mongoose ODM
+- User schema includes:
+  - Email
+  - Hashed password
+  - Role (`user` / `admin`)
+  - Profile information
+
+---
+
+## 🛠 Technologies Used
+
+### Frontend
+- Next.js
+- TypeScript
+- Tailwind CSS
+- Zod
+- react-hook-form
+
+### Backend
+- Node.js
+- Express.js
+- TypeScript
+- MongoDB
+- Mongoose
+- bcryptjs
+- jsonwebtoken
+- dotenv
+
+### Tools
+- Git & GitHub
+- Postman
+- VS Code
+
+---
+
+## 📦 Environment Variables
+
+Backend uses environment variables for configuration:
+
+```env
+PORT=5050
+MONGODB_URI=mongodb://127.0.0.1:27017/foodify_db
+JWT_SECRET=your_secret_key
