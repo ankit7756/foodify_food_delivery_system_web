@@ -19,12 +19,7 @@ This project is built for learning, scalability, and maintainability.
 
 ## 🧱 Architecture Overview
 
-The project is structured as a **monorepo** with separate frontend and backend applications:
-
-Foodify/
-└── foodify_food_ordering_and_delivery_system/
-    ├── app/        # Frontend (Next.js)
-    └── backend/    # Backend (Express + MongoDB)
+The project is structured as a **monorepo** with separate frontend and backend applications
 
 ---
 
