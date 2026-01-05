@@ -23,9 +23,8 @@ The project is structured as a **monorepo** with separate frontend and backend a
 
 Foodify/
 └── foodify_food_ordering_and_delivery_system/
-├── app/ # Frontend (Next.js)
-└── backend/ # Backend (Express + MongoDB)
-
+    ├── app/        # Frontend (Next.js)
+    └── backend/    # Backend (Express + MongoDB)
 
 ---
 
