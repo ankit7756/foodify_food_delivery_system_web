@@ -1,0 +1,89 @@
+// import Link from "next/link";
+
+// export default function DashboardPage() {
+//     return (
+//         <div className="text-center space-y-8">
+//             <h1 className="text-4xl font-bold">Dashboard</h1>
+//             <p className="text-lg">Congratulations! You are now logged in.</p>
+//             <p className="text-muted-foreground">This is a dummy page.</p>
+//             <Link
+//                 href="/"
+//                 className="inline-block px-6 py-3 border border-foreground rounded-md font-medium hover:bg-foreground/5"
+//             >
+//                 Back to Home
+//             </Link>
+//         </div>
+//     );
+// }
+
+import Link from "next/link";
+import { getUserData } from "@/app/lib/cookie";
+import { redirect } from "next/navigation";
+
+export default async function DashboardPage() {
+    const user = await getUserData();
+
+    if (!user) {
+        redirect("/login");
+    }
+
+    return (
+        <div className="min-h-screen bg-background">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 max-w-6xl">
+                {/* Welcome Hero */}
+                <div className="text-center mb-16">
+                    <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r from-orange-500 to-pink-600 bg-clip-text text-transparent mb-6">
+                        Welcome Back, {user.name || user.email}! 🎉
+                    </h1>
+                    <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
+                        You're successfully logged in. Here's your dashboard overview.
+                    </p>
+                </div>
+
+                {/* User Info Card */}
+                <div className="bg-card rounded-2xl shadow-lg p-8 border border-border mb-12">
+                    <h2 className="text-2xl font-bold mb-4">Your Profile</h2>
+                    <div className="space-y-3">
+                        <div className="flex items-center gap-3">
+                            <span className="text-muted-foreground">Name:</span>
+                            <span className="font-semibold">{user.name}</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <span className="text-muted-foreground">Email:</span>
+                            <span className="font-semibold">{user.email}</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <span className="text-muted-foreground">Role:</span>
+                            <span className="inline-block px-3 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 rounded-full text-sm font-medium">
+                                {user.role}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Stats Cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+                    <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-3xl shadow-2xl p-10 text-white text-center hover:scale-105 transition-transform">
+                        <h3 className="text-5xl font-bold">42</h3>
+                        <p className="text-xl mt-4 opacity-90">Orders This Month</p>
+                    </div>
+                    <div className="bg-gradient-to-br from-pink-500 to-pink-600 rounded-3xl shadow-2xl p-10 text-white text-center hover:scale-105 transition-transform">
+                        <h3 className="text-5xl font-bold">18</h3>
+                        <p className="text-xl mt-4 opacity-90">Favorite Restaurants</p>
+                    </div>
+                    <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-3xl shadow-2xl p-10 text-white text-center hover:scale-105 transition-transform">
+                        <h3 className="text-5xl font-bold">95%</h3>
+                        <p className="text-xl mt-4 opacity-90">Satisfaction Rate</p>
+                    </div>
+                </div>
+
+                <div className="bg-card rounded-3xl shadow-xl p-10 border border-border">
+                    <h2 className="text-3xl font-bold mb-8 text-center">Recent Activity</h2>
+                    <p className="text-center text-muted-foreground text-lg">
+                        Your recent orders will appear here once you start ordering!
+                    </p>
+                </div>
+            </div>
+        </div>
+    );
+}
