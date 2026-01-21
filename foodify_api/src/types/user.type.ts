@@ -1,18 +1,36 @@
+// import { z } from "zod";
+
+// // Register Schema
+// export const RegisterSchema = z.object({
+//     fullName: z.string().min(1, "Full name is required"),
+//     username: z.string().min(3, "Username must be at least 3 characters"),
+//     phone: z.string().min(10, "Phone number must be at least 10 digits"),
+//     email: z.string().email("Invalid email format"),
+//     password: z.string().min(6, "Password must be at least 6 characters"),
+// });
+
+// // Login Schema
+// export const LoginSchema = z.object({
+//     email: z.string().email("Invalid email format"),
+//     password: z.string().min(1, "Password is required"),
+// });
+
+
 import { z } from "zod";
 
+// Register Schema
 export const RegisterSchema = z.object({
-    name: z.string().min(2, "Name must be at least 2 characters"),
-    email: z.string().email("Invalid email"),
+    fullName: z.string().min(1, "Full name is required"),
+    username: z.string().min(3, "Username must be at least 3 characters"),
+    phone: z.string().min(10, "Phone number must be at least 10 digits"),
+    email: z.email({ message: "Invalid email format" }),
     password: z.string().min(6, "Password must be at least 6 characters"),
-    confirmPassword: z.string(),
-}).refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
 });
 
+// Login Schema
 export const LoginSchema = z.object({
-    email: z.string().email("Invalid email"),
-    password: z.string().min(6, "Password too short"),
+    email: z.email({ message: "Invalid email format" }),
+    password: z.string().min(1, "Password is required"),
 });
 
 export type RegisterInput = z.infer<typeof RegisterSchema>;

@@ -14,17 +14,21 @@ export const registerUser = async (data: RegisterInput) => {
     const hashedPassword = await bcryptjs.hash(data.password, 10);
 
     const newUser = await createUser({
-        name: data.name,
+        fullName: data.fullName,
+        username: data.username,
+        phone: data.phone,
         email: data.email,
         password: hashedPassword,
         role: "user"
     });
 
     return {
-        message: "User created successfully",
+        message: "User registered successfully",
         user: {
-            id: newUser._id,
-            name: newUser.name,
+            _id: newUser._id,
+            fullName: newUser.fullName,
+            username: newUser.username,
+            phone: newUser.phone,
             email: newUser.email,
             role: newUser.role
         }
@@ -52,8 +56,10 @@ export const loginUser = async (data: LoginInput) => {
         message: "Login successful",
         token,
         user: {
-            id: user._id,
-            name: user.name,
+            _id: user._id,
+            fullName: user.fullName,
+            username: user.username,
+            phone: user.phone,
             email: user.email,
             role: user.role
         }
