@@ -39,6 +39,9 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -55,6 +58,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className} min-h-screen bg-background text-foreground antialiased`}>
+        <ToastContainer position="top-right" autoClose={3000} />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

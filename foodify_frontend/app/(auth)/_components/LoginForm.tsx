@@ -35,11 +35,12 @@ export default function LoginForm() {
             if (result.success) {
                 console.log("✅ Login successful, navigating to dashboard..."); // Debug
 
-                // Try hard navigation first
-                window.location.href = "/user/dashboard";
-
-                // Fallback to router navigation
-                // router.push("/user/dashboard");
+                // Check role and redirect accordingly
+                if (result.data?.role === 'admin') {
+                    window.location.href = "/admin";
+                } else {
+                    window.location.href = "/user/dashboard";
+                }
             } else {
                 console.log("❌ Login failed:", result.message); // Debug
                 setError(result.message || "Login failed. Please try again.");
