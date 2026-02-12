@@ -4,7 +4,7 @@ import { UserEditData, UserEditSchema } from "@/app/admin/users/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef, useState, useTransition } from "react";
 import { toast } from "react-toastify";
-import { handleUpdateUser } from "@/app/lib/actions/admin/user-action";
+import { handleUpdateUser } from "@/lib/actions/admin/user-action";
 import { useRouter } from "next/navigation";
 import { Loader2, User, Mail, Phone } from "lucide-react";
 
