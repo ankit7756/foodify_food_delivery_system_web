@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef, useState, useTransition } from "react";
 import Link from "next/link";
 import { toast } from "react-toastify";
-import { handleCreateUser } from "@/app/lib/actions/admin/user-action";
+import { handleCreateUser } from "@/lib/actions/admin/user-action";
 
 export default function CreateUserForm() {
     const [pending, startTransition] = useTransition();
