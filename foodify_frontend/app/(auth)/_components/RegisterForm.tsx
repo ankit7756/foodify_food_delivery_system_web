@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { registerSchema, RegisterData } from "../schema";
-import { handleRegister } from "@/app/lib/actions/auth-action";
+import { handleRegister } from "@/lib/actions/auth-action";
 import { Eye, EyeOff, Mail, Lock, User, Loader2, CheckCircle, Phone } from "lucide-react";
 
 export default function RegisterForm() {
