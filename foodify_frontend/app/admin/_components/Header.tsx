@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { handleLogout } from "@/app/lib/actions/auth-action";
+import { handleLogout } from "@/lib/actions/auth-action";
 
 export default function Header() {
     return (

@@ -1,4 +1,4 @@
-import { handleGetUserById } from "@/app/lib/actions/admin/user-action";
+import { handleGetUserById } from "@/lib/actions/admin/user-action";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 

@@ -1,5 +1,5 @@
 "use server";
-import { createUser, getAllUsers, getUserById, updateUser, deleteUser } from "@/app/lib/api/admin/user";
+import { createUser, getAllUsers, getUserById, updateUser, deleteUser } from "@/lib/api/admin/user";
 import { revalidatePath } from 'next/cache';
 
 export const handleCreateUser = async (data: FormData) => {
@@ -22,20 +22,21 @@ export const handleCreateUser = async (data: FormData) => {
     }
 }
 
-export const handleGetAllUsers = async () => {
+export const handleGetAllUsers = async (page: string = '1', size: string = '10', search?: string) => {
     try {
-        const response = await getAllUsers();
+        const response = await getAllUsers(page, size, search);
         if (response.success) {
             return {
                 success: true,
-                data: response.data
+                data: response.data,
+                pagination: response.pagination
             };
         }
         return {
             success: false,
             message: response.message || 'Failed to fetch users'
         };
-    } catch (error: Error | any) {
+    } catch (error: any) {
         return { success: false, message: error.message };
     }
 }

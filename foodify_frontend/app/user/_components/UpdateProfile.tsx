@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { useState, useRef } from "react";
 import { toast } from "react-toastify";
-import { handleUpdateProfile } from "@/app/lib/actions/auth-action";
+import { handleUpdateProfile } from "@/lib/actions/auth-action";
 import { UpdateUserData, updateUserSchema } from "../schema";
 import { User, Mail, Phone, Loader2 } from "lucide-react";
 

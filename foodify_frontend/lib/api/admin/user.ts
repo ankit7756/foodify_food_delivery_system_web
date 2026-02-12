@@ -18,11 +18,13 @@ export const createUser = async (userData: FormData) => {
     }
 }
 
-export const getAllUsers = async () => {
+export const getAllUsers = async (page: string = '1', size: string = '10', search?: string) => {
     try {
-        const response = await axios.get(API.ADMIN.USERS.GET_ALL);
+        const response = await axios.get(API.ADMIN.USERS.GET_ALL, {
+            params: { page, size, search }
+        });
         return response.data;
-    } catch (error: Error | any) {
+    } catch (error: any) {
         throw new Error(error.response?.data?.message || error.message || 'Failed to fetch users');
     }
 }
@@ -61,3 +63,4 @@ export const deleteUser = async (id: string) => {
         throw new Error(error.response?.data?.message || error.message || 'Delete user failed');
     }
 }
+

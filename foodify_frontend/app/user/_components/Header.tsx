@@ -1,7 +1,7 @@
 "use client";
 
 import ThemeToggle from "@/app/_components/ThemeToggle";
-import { handleLogout } from "@/app/lib/actions/auth-action";
+import { handleLogout } from "@/lib/actions/auth-action";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
