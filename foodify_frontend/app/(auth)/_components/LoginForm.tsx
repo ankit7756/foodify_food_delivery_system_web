@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { loginSchema, LoginData } from "../schema";
-import { handleLogin } from "@/app/lib/actions/auth-action";
+import { handleLogin } from "@/lib/actions/auth-action";
 import { Eye, EyeOff, Mail, Lock, Loader2 } from "lucide-react";
 
 export default function LoginForm() {
@@ -152,6 +152,16 @@ export default function LoginForm() {
                     className="font-semibold text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 hover:underline transition-colors"
                 >
                     Sign up
+                </Link>
+            </p>
+
+            {/* Forgot Password Link */}
+            <p className="text-center text-sm text-muted-foreground">
+                <Link
+                    href="/forgot-password"
+                    className="font-semibold text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 hover:underline transition-colors"
+                >
+                    Forgot Password?
                 </Link>
             </p>
         </form>
