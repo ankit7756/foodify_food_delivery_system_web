@@ -4,7 +4,6 @@ export const API = {
         REGISTER: '/api/auth/register',
         PROFILE: '/api/auth/profile',
         UPDATE_PROFILE: '/api/auth/',
-        // ✅ ADD THESE
         REQUEST_PASSWORD_RESET: '/api/auth/request-password-reset',
         RESET_PASSWORD: (token: string) => `/api/auth/reset-password/${token}`,
     },
@@ -16,5 +15,16 @@ export const API = {
             UPDATE: '/api/admin/users/',
             DELETE: '/api/admin/users/',
         }
-    }
+    },
+    FOODS: {
+        GET_ALL: '/api/foods',
+        GET_POPULAR: '/api/foods/popular',
+        GET_BY_ID: (id: string) => `/api/foods/${id}`,
+        GET_BY_RESTAURANT: (restaurantId: string) => `/api/foods/restaurant/${restaurantId}`,
+    },
+    RESTAURANTS: {
+        GET_ALL: '/api/restaurants',
+        GET_BY_ID: (id: string) => `/api/restaurants/${id}`,
+        SEARCH: '/api/restaurants/search',
+    },
 }

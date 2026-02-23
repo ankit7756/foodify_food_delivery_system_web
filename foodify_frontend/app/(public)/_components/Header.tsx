@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import ThemeToggle from "@/app/_components/ThemeToggle";
 
 const NAV_LINKS = [
-    { href: "/", label: "Home", icon: "🏠" },
-    { href: "/about", label: "About", icon: "ℹ️" },
+    { href: "/", label: "Explore" },
+    { href: "/about", label: "About" },
 ];
 
 export default function Header() {
@@ -16,9 +17,7 @@ export default function Header() {
     const [scrolled, setScrolled] = useState(false);
 
     useEffect(() => {
-        const handleScroll = () => {
-            setScrolled(window.scrollY > 20);
-        };
+        const handleScroll = () => setScrolled(window.scrollY > 20);
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
@@ -29,131 +28,123 @@ export default function Header() {
     return (
         <header
             className={`sticky top-0 z-50 transition-all duration-300 ${scrolled
-                ? "bg-background/95 backdrop-blur-lg shadow-lg border-b border-border"
-                : "bg-background/80 backdrop-blur-md border-b border-border/50"
+                ? "bg-background/95 backdrop-blur-xl shadow-sm border-b border-border/60"
+                : "bg-background/70 backdrop-blur-md"
                 }`}
         >
             <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div className="flex h-16 items-center justify-between">
+                <div className="flex h-16 items-center justify-between gap-8">
+
                     {/* Logo */}
-                    <div className="flex items-center">
-                        <Link href="/" className="flex items-center gap-3 group">
-                            <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 via-pink-500 to-pink-600 text-white font-bold text-xl shadow-lg group-hover:shadow-xl group-hover:scale-105 transition-all duration-300">
-                                <span className="relative z-10">F</span>
-                                <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-orange-400 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity blur-sm"></div>
+                    <Link href="/" className="flex items-center gap-2.5 flex-shrink-0 group">
+                        <div className="relative h-9 w-9 rounded-xl overflow-hidden shadow-md group-hover:shadow-orange-200 dark:group-hover:shadow-orange-900/40 transition-shadow duration-300">
+                            <Image
+                                src="/images/foodify_logo.png"
+                                alt="Foodify"
+                                fill
+                                className="object-cover"
+                                onError={(e) => {
+                                    // Fallback if logo not found
+                                    e.currentTarget.style.display = "none";
+                                }}
+                            />
+                            {/* Fallback gradient icon */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-pink-600 flex items-center justify-center text-white font-bold text-lg">
+                                F
                             </div>
-                            <div className="flex flex-col">
-                                <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-orange-500 to-pink-600 bg-clip-text text-transparent group-hover:from-orange-600 group-hover:to-pink-700 transition-all">
-                                    Foodify
-                                </span>
-                                <span className="text-[10px] text-muted-foreground font-medium -mt-1">
-                                    Food Delivered Fast
-                                </span>
-                            </div>
-                        </Link>
-                    </div>
-
-                    <div className="hidden md:flex items-center justify-center flex-1">
-                        <div className="flex items-center gap-2 bg-muted/50 rounded-full p-1">
-                            {NAV_LINKS.map((link) => (
-                                <Link
-                                    key={link.href}
-                                    href={link.href}
-                                    className={`flex items-center gap-2 px-5 py-2 text-sm font-medium rounded-full transition-all duration-300 ${isActive(link.href)
-                                        ? "bg-background text-foreground shadow-md"
-                                        : "text-foreground/60 hover:text-foreground hover:bg-background/50"
-                                        }`}
-                                >
-                                    <span className="text-base">{link.icon}</span>
-                                    <span>{link.label}</span>
-                                </Link>
-                            ))}
                         </div>
+                        <span className="text-lg font-bold tracking-tight bg-gradient-to-r from-orange-500 to-pink-600 bg-clip-text text-transparent">
+                            Foodify
+                        </span>
+                    </Link>
+
+                    {/* Desktop Nav Links — centered */}
+                    <div className="hidden md:flex items-center gap-1 flex-1 justify-center">
+                        {NAV_LINKS.map((link) => (
+                            <Link
+                                key={link.href}
+                                href={link.href}
+                                className={`relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${isActive(link.href)
+                                    ? "text-orange-600 dark:text-orange-400"
+                                    : "text-foreground/60 hover:text-foreground hover:bg-accent"
+                                    }`}
+                            >
+                                {link.label}
+                                {isActive(link.href) && (
+                                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 rounded-full bg-gradient-to-r from-orange-500 to-pink-600" />
+                                )}
+                            </Link>
+                        ))}
                     </div>
 
-                    <div className="flex items-center gap-3">
-                        <div className="hidden sm:flex items-center gap-3">
+                    {/* Right side */}
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                        <ThemeToggle />
+
+                        <div className="hidden sm:flex items-center gap-2">
                             <Link
                                 href="/login"
-                                className="px-5 py-2 text-sm font-medium rounded-full border border-border hover:bg-accent hover:border-foreground/20 transition-all duration-300"
+                                className="px-4 py-2 text-sm font-medium rounded-lg text-foreground/70 hover:text-foreground hover:bg-accent transition-all duration-200"
                             >
                                 Log in
                             </Link>
                             <Link
                                 href="/register"
-                                className="px-5 py-2 text-sm font-semibold rounded-full bg-gradient-to-r from-orange-500 to-pink-600 text-white hover:from-orange-600 hover:to-pink-700 transition-all duration-300 shadow-md hover:shadow-lg"
+                                className="px-4 py-2 text-sm font-semibold rounded-lg bg-gradient-to-r from-orange-500 to-pink-600 text-white hover:from-orange-600 hover:to-pink-700 shadow-sm hover:shadow-md hover:shadow-orange-200 dark:hover:shadow-orange-900/30 transition-all duration-200"
                             >
                                 Sign up
                             </Link>
                         </div>
 
-                        <div className="hidden sm:block w-px h-6 bg-border"></div>
-
-                        <ThemeToggle />
-
+                        {/* Mobile hamburger */}
                         <button
                             onClick={() => setMobileOpen(!mobileOpen)}
                             className="md:hidden p-2 rounded-lg hover:bg-accent transition-colors"
-                            aria-label="Toggle mobile menu"
+                            aria-label="Toggle menu"
                         >
-                            <div className="relative w-6 h-6">
-                                <span
-                                    className={`absolute block h-0.5 w-6 bg-current transform transition-all duration-300 ${mobileOpen ? "rotate-45 top-3" : "top-1"
-                                        }`}
-                                ></span>
-                                <span
-                                    className={`absolute block h-0.5 w-6 bg-current top-3 transition-all duration-300 ${mobileOpen ? "opacity-0" : "opacity-100"
-                                        }`}
-                                ></span>
-                                <span
-                                    className={`absolute block h-0.5 w-6 bg-current transform transition-all duration-300 ${mobileOpen ? "-rotate-45 top-3" : "top-5"
-                                        }`}
-                                ></span>
+                            <div className="w-5 h-4 flex flex-col justify-between">
+                                <span className={`block h-0.5 bg-foreground rounded-full transition-all duration-300 ${mobileOpen ? "rotate-45 translate-y-[7px]" : ""}`} />
+                                <span className={`block h-0.5 bg-foreground rounded-full transition-all duration-300 ${mobileOpen ? "opacity-0" : ""}`} />
+                                <span className={`block h-0.5 bg-foreground rounded-full transition-all duration-300 ${mobileOpen ? "-rotate-45 -translate-y-[9px]" : ""}`} />
                             </div>
                         </button>
                     </div>
                 </div>
 
+                {/* Mobile Menu */}
                 <div
-                    className={`md:hidden overflow-hidden transition-all duration-300 ${mobileOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                    className={`md:hidden overflow-hidden transition-all duration-300 ${mobileOpen ? "max-h-72 opacity-100 pb-4" : "max-h-0 opacity-0"
                         }`}
                 >
-                    <div className="py-4 border-t border-border">
-                        <div className="flex flex-col gap-2">
-                            {NAV_LINKS.map((link) => (
-                                <Link
-                                    key={link.href}
-                                    href={link.href}
-                                    onClick={() => setMobileOpen(false)}
-                                    className={`flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-all duration-300 ${isActive(link.href)
-                                        ? "bg-gradient-to-r from-orange-500/10 to-pink-600/10 text-foreground border-l-4 border-orange-500"
-                                        : "text-foreground/70 hover:bg-accent hover:text-foreground"
-                                        }`}
-                                >
-                                    <span className="text-xl">{link.icon}</span>
-                                    <span>{link.label}</span>
-                                </Link>
-                            ))}
-
-                            <div className="h-px bg-border my-2"></div>
-
-                            <div className="flex flex-col gap-3">
-                                <Link
-                                    href="/login"
-                                    onClick={() => setMobileOpen(false)}
-                                    className="px-4 py-3 text-sm font-medium text-center rounded-xl border border-border hover:bg-accent transition-all duration-300"
-                                >
-                                    Log in
-                                </Link>
-                                <Link
-                                    href="/register"
-                                    onClick={() => setMobileOpen(false)}
-                                    className="px-4 py-3 text-sm font-semibold text-center rounded-xl bg-gradient-to-r from-orange-500 to-pink-600 text-white hover:from-orange-600 hover:to-pink-700 transition-all duration-300 shadow-md"
-                                >
-                                    Sign up
-                                </Link>
-                            </div>
-                        </div>
+                    <div className="pt-2 border-t border-border/50 flex flex-col gap-1">
+                        {NAV_LINKS.map((link) => (
+                            <Link
+                                key={link.href}
+                                href={link.href}
+                                onClick={() => setMobileOpen(false)}
+                                className={`flex items-center gap-2 px-3 py-2.5 text-sm font-medium rounded-lg transition-all ${isActive(link.href)
+                                    ? "bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400"
+                                    : "text-foreground/70 hover:bg-accent hover:text-foreground"
+                                    }`}
+                            >
+                                {link.label}
+                            </Link>
+                        ))}
+                        <div className="h-px bg-border/50 my-1" />
+                        <Link
+                            href="/login"
+                            onClick={() => setMobileOpen(false)}
+                            className="px-3 py-2.5 text-sm font-medium text-center rounded-lg border border-border hover:bg-accent transition-all"
+                        >
+                            Log in
+                        </Link>
+                        <Link
+                            href="/register"
+                            onClick={() => setMobileOpen(false)}
+                            className="px-3 py-2.5 text-sm font-semibold text-center rounded-lg bg-gradient-to-r from-orange-500 to-pink-600 text-white hover:from-orange-600 hover:to-pink-700 transition-all"
+                        >
+                            Sign up
+                        </Link>
                     </div>
                 </div>
             </nav>

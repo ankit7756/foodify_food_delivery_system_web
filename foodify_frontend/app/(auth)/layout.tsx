@@ -1,25 +1,26 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
     return (
-        <section className="h-screen">
-            <div className="h-full w-full grid md:grid-cols-2 md:gap-0">
-                {/* Left side - Illustration */}
-                <div className="relative hidden md:flex items-center justify-center bg-gradient-to-br from-orange-500 via-pink-500 to-pink-600 overflow-hidden">
-                    <div className="absolute inset-0 bg-black/10"></div>
-                    <div className="relative z-10 text-white text-center p-8">
-                        <h1 className="text-5xl font-bold mb-4">Welcome to Foodify! 🍕</h1>
-                        <p className="text-xl opacity-90">Delicious food delivered to your doorstep</p>
+        <div className="min-h-screen bg-muted/30 flex flex-col items-center justify-center px-4 py-12">
+            {/* Logo */}
+            <Link href="/" className="flex items-center gap-2 mb-8">
+                <div className="relative h-9 w-9 rounded-xl overflow-hidden">
+                    <Image src="/images/foodify_logo.png" alt="Foodify" fill className="object-cover" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-pink-600 flex items-center justify-center text-white font-bold text-base">
+                        F
                     </div>
                 </div>
+                <span className="text-xl font-bold bg-gradient-to-r from-orange-500 to-pink-600 bg-clip-text text-transparent">
+                    Foodify
+                </span>
+            </Link>
 
-                {/* Right side - Form */}
-                <div className="flex h-full items-center justify-center px-4 md:px-10 bg-background">
-                    <div className="w-full max-w-md rounded-xl border border-border bg-card p-8 shadow-lg">
-                        {children}
-                    </div>
-                </div>
+            {/* Card */}
+            <div className="w-full max-w-md bg-background rounded-2xl border border-border shadow-sm p-8">
+                {children}
             </div>
-        </section>
+        </div>
     );
 }
