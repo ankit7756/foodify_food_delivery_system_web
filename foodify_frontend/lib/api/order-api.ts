@@ -23,7 +23,7 @@ export interface CreateOrderPayload {
 
 export interface Order {
     _id: string;
-    restaurantId: string | { _id: string; name: string; image: string; rating: number };
+    restaurantId: string | { _id: string; name: string; image: string; rating: number; phone?: string; address?: string };
     restaurantName: string;
     items: OrderItem[];
     subtotal: number;
@@ -35,6 +35,18 @@ export interface Order {
     status: "pending" | "preparing" | "out_for_delivery" | "delivered" | "cancelled";
     orderDate: string;
     deliveryDate?: string;
+    createdAt: string;
+}
+
+export interface Review {
+    _id: string;
+    userId: string;
+    orderId: string;
+    restaurantId: string;
+    restaurantName: string;
+    foodItems: string[];
+    stars: number;
+    message: string;
     createdAt: string;
 }
 
@@ -64,6 +76,16 @@ export const getOrderById = async (id: string): Promise<Order> => {
     return res.data.data;
 };
 
+export const confirmDelivery = async (id: string): Promise<Order> => {
+    const res = await api.put(API.ORDERS.CONFIRM(id));
+    return res.data.data;
+};
+
+export const cancelOrder = async (id: string): Promise<Order> => {
+    const res = await api.put(API.ORDERS.CANCEL(id));
+    return res.data.data;
+};
+
 // Payment
 export const sendKhaltiOTP = async (payload: {
     phone: string;
@@ -77,4 +99,20 @@ export const sendKhaltiOTP = async (payload: {
 export const verifyKhaltiOTP = async (otp: string): Promise<{ success: boolean; message: string }> => {
     const res = await api.post(API.PAYMENT.KHALTI_VERIFY_OTP, { otp });
     return res.data;
+};
+
+// Reviews
+export const submitReview = async (orderId: string, stars: number, message: string): Promise<Review> => {
+    const res = await api.post(API.REVIEWS.SUBMIT(orderId), { stars, message });
+    return res.data.data;
+};
+
+export const getReviewByOrder = async (orderId: string): Promise<Review | null> => {
+    const res = await api.get(API.REVIEWS.GET_BY_ORDER(orderId));
+    return res.data.data;
+};
+
+export const getMyReviews = async (): Promise<Review[]> => {
+    const res = await api.get(API.REVIEWS.MY_REVIEWS);
+    return res.data.data;
 };

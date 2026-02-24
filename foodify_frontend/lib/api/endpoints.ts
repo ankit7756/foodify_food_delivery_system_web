@@ -33,9 +33,18 @@ export const API = {
         CURRENT: '/api/orders/current',
         HISTORY: '/api/orders/history',
         GET_BY_ID: (id: string) => `/api/orders/${id}`,
+        CONFIRM: (id: string) => `/api/orders/${id}/confirm`,
+        CANCEL: (id: string) => `/api/orders/${id}/cancel`,
+        UPDATE_STATUS: (id: string) => `/api/orders/${id}/status`,
     },
     PAYMENT: {
         KHALTI_SEND_OTP: '/api/payment/khalti/send-otp',
         KHALTI_VERIFY_OTP: '/api/payment/khalti/verify-otp',
+    },
+    REVIEWS: {
+        SUBMIT: (orderId: string) => `/api/reviews/order/${orderId}`,
+        GET_BY_ORDER: (orderId: string) => `/api/reviews/order/${orderId}`,
+        MY_REVIEWS: '/api/reviews/my',
+        RESTAURANT: (restaurantId: string) => `/api/reviews/restaurant/${restaurantId}`,
     },
 }
