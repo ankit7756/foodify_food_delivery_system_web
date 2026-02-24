@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { ChevronLeft, Star, Send, Loader2 } from "lucide-react";
 import { getOrderById, submitReview, Order } from "@/lib/api/order-api";
+import { addNotification } from "@/lib/notifications";
 
 const STAR_LABELS = ["", "Terrible", "Bad", "Okay", "Good", "Excellent!"];
 
@@ -37,6 +38,11 @@ export default function ReviewPage({ params }: { params: Promise<{ id: string }>
         setError(null);
         try {
             await submitReview(orderId, stars, message.trim());
+            addNotification(
+                "Review Submitted ⭐",
+                `Thanks for reviewing your order from ${order?.restaurantName}!`,
+                "review"
+            );
             router.replace(`/user/orders/${orderId}`);
         } catch (err: any) {
             setError(err.response?.data?.message || err.message || "Failed to submit review");
@@ -103,8 +109,8 @@ export default function ReviewPage({ params }: { params: Promise<{ id: string }>
                             >
                                 <Star
                                     className={`h-10 w-10 transition-colors duration-150 ${s <= displayStars
-                                            ? "fill-amber-400 text-amber-400"
-                                            : "text-muted-foreground/30"
+                                        ? "fill-amber-400 text-amber-400"
+                                        : "text-muted-foreground/30"
                                         }`}
                                 />
                             </button>
@@ -113,7 +119,7 @@ export default function ReviewPage({ params }: { params: Promise<{ id: string }>
 
                     {displayStars > 0 && (
                         <p className={`text-sm font-semibold transition-all ${displayStars >= 4 ? "text-green-500" :
-                                displayStars === 3 ? "text-amber-500" : "text-red-500"
+                            displayStars === 3 ? "text-amber-500" : "text-red-500"
                             }`}>
                             {STAR_LABELS[displayStars]}
                         </p>

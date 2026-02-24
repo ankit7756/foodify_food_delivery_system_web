@@ -14,8 +14,9 @@ import {
     getReviewByOrder, Order, Review
 } from "@/lib/api/order-api";
 import { useCartStore } from "@/store/cartStore";
+import { addNotification } from "@/lib/notifications";
 
-// Timeline steps
+
 const TIMELINE = [
     { key: "pending", label: "Order Placed", icon: CheckCircle },
     { key: "preparing", label: "Preparing", icon: Package },
@@ -121,6 +122,11 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
         try {
             const updated = await confirmDelivery(id);
             setOrder(updated);
+            addNotification(
+                "Order Delivered ✓",
+                `Your order from ${order?.restaurantName} has been marked as delivered.`,
+                "order"
+            );
             showToast("Order marked as delivered! 🎉", "success");
             setConfirmPrompt(false);
         } catch (err: any) {
@@ -135,6 +141,11 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
         try {
             const updated = await cancelOrder(id);
             setOrder(updated);
+            addNotification(
+                "Order Cancelled",
+                `Your order from ${order?.restaurantName} has been cancelled.`,
+                "order"
+            );
             showToast("Order cancelled.", "info");
             setCancelConfirm(false);
         } catch (err: any) {

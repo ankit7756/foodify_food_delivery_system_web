@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { useCartStore, cartSubtotal, cartItemCount } from "@/store/cartStore";
 import { createOrder, sendKhaltiOTP, verifyKhaltiOTP } from "@/lib/api/order-api";
+import { addNotification } from "@/lib/notifications";
 
 const DELIVERY_FEE = 50;
 type PaymentMethod = "Cash on Delivery" | "Khalti";
@@ -316,6 +317,11 @@ export default function CheckoutPage() {
             await createOrder(orderPayload);
             setOrderSuccess(true);
             clearCart();
+            addNotification(
+                "Order Placed! 🎉",
+                `Your order from ${restaurantName} has been placed successfully.`,
+                "order"
+            );
             setTimeout(() => router.push("/user/orders"), 2000);
         } catch (err: any) {
             setError(err.message || "Failed to place order. Please try again.");
@@ -328,6 +334,11 @@ export default function CheckoutPage() {
         setShowKhaltiModal(false);
         setOrderSuccess(true);
         clearCart();
+        addNotification(
+            "Order Placed! 🎉",
+            `Your order from ${restaurantName} has been placed and paid via Khalti.`,
+            "order"
+        );
         setTimeout(() => router.push("/user/orders"), 2000);
     };
 
@@ -425,8 +436,8 @@ export default function CheckoutPage() {
                                     <button
                                         onClick={() => setPaymentMethod("Cash on Delivery")}
                                         className={`w-full flex items-center gap-4 p-4 rounded-xl border-2 transition-all duration-200 ${paymentMethod === "Cash on Delivery"
-                                                ? "border-orange-500 bg-orange-50 dark:bg-orange-900/20"
-                                                : "border-border hover:border-orange-300"
+                                            ? "border-orange-500 bg-orange-50 dark:bg-orange-900/20"
+                                            : "border-border hover:border-orange-300"
                                             }`}
                                     >
                                         <div className={`h-10 w-10 rounded-xl flex items-center justify-center flex-shrink-0 ${paymentMethod === "Cash on Delivery" ? "bg-orange-500 text-white" : "bg-muted text-muted-foreground"
@@ -448,8 +459,8 @@ export default function CheckoutPage() {
                                     <button
                                         onClick={() => setPaymentMethod("Khalti")}
                                         className={`w-full flex items-center gap-4 p-4 rounded-xl border-2 transition-all duration-200 ${paymentMethod === "Khalti"
-                                                ? "border-[#5C2D91] bg-purple-50 dark:bg-purple-900/20"
-                                                : "border-border hover:border-purple-300"
+                                            ? "border-[#5C2D91] bg-purple-50 dark:bg-purple-900/20"
+                                            : "border-border hover:border-purple-300"
                                             }`}
                                     >
                                         <div className={`h-10 w-10 rounded-xl flex items-center justify-center flex-shrink-0 font-black text-sm ${paymentMethod === "Khalti" ? "bg-[#5C2D91] text-white" : "bg-muted text-muted-foreground"
@@ -544,8 +555,8 @@ export default function CheckoutPage() {
                                     onClick={handlePlaceOrder}
                                     disabled={loading}
                                     className={`w-full flex items-center justify-center gap-2 py-4 rounded-xl font-bold text-base shadow-md transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed ${paymentMethod === "Khalti"
-                                            ? "bg-[#5C2D91] hover:bg-[#4a2275] text-white"
-                                            : "bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-600 hover:to-pink-700 text-white"
+                                        ? "bg-[#5C2D91] hover:bg-[#4a2275] text-white"
+                                        : "bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-600 hover:to-pink-700 text-white"
                                         }`}
                                 >
                                     {loading ? (
