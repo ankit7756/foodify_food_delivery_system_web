@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { handleLogout } from "@/lib/actions/auth-action";
 import ThemeToggle from "@/app/_components/ThemeToggle";
+import { useCartStore, cartItemCount } from "@/store/cartStore";
 
 const NAV_LINKS = [
     { href: "/user/dashboard", label: "Home", icon: Home },
@@ -24,9 +25,11 @@ export default function UserHeader() {
     const [profileOpen, setProfileOpen] = useState(false);
     const [searchOpen, setSearchOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
-    const [cartCount] = useState(0);
     const dropdownRef = useRef<HTMLDivElement>(null);
     const searchRef = useRef<HTMLDivElement>(null);
+
+    const items = useCartStore((s) => s.items);
+    const cartCount = cartItemCount(items);
 
     const isActive = (href: string) => pathname === href || pathname.startsWith(href + "/");
 
@@ -90,7 +93,7 @@ export default function UserHeader() {
                                 <span>{label}</span>
                                 {label === "Cart" && cartCount > 0 && (
                                     <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-orange-500 text-white text-[10px] font-bold flex items-center justify-center">
-                                        {cartCount}
+                                        {cartCount > 9 ? "9+" : cartCount}
                                     </span>
                                 )}
                             </Link>
@@ -143,6 +146,19 @@ export default function UserHeader() {
                             <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-orange-500" />
                         </Link>
 
+                        {/* Cart icon shortcut for mobile */}
+                        <Link
+                            href="/user/cart"
+                            className="relative p-2 rounded-lg text-foreground/60 hover:text-foreground hover:bg-accent transition-all md:hidden"
+                        >
+                            <ShoppingCart className="h-5 w-5" />
+                            {cartCount > 0 && (
+                                <span className="absolute top-1 right-1 h-4 w-4 rounded-full bg-orange-500 text-white text-[10px] font-bold flex items-center justify-center">
+                                    {cartCount > 9 ? "9+" : cartCount}
+                                </span>
+                            )}
+                        </Link>
+
                         {/* Profile dropdown */}
                         <div ref={dropdownRef} className="relative">
                             <button
@@ -188,11 +204,10 @@ export default function UserHeader() {
                                 </div>
                             )}
                         </div>
-
                     </div>
                 </div>
 
-                {/* Mobile nav links */}
+                {/* Mobile bottom nav */}
                 <div className="md:hidden flex items-center gap-1 pb-2 overflow-x-auto">
                     {NAV_LINKS.map(({ href, label, icon: Icon }) => (
                         <Link
@@ -205,6 +220,11 @@ export default function UserHeader() {
                         >
                             <Icon className="h-3.5 w-3.5" />
                             {label}
+                            {label === "Cart" && cartCount > 0 && (
+                                <span className="absolute -top-0.5 -right-0.5 h-3.5 w-3.5 rounded-full bg-orange-500 text-white text-[8px] font-bold flex items-center justify-center">
+                                    {cartCount > 9 ? "9+" : cartCount}
+                                </span>
+                            )}
                         </Link>
                     ))}
                 </div>
