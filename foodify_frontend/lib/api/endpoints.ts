@@ -27,4 +27,15 @@ export const API = {
         GET_BY_ID: (id: string) => `/api/restaurants/${id}`,
         SEARCH: '/api/restaurants/search',
     },
+    ORDERS: {
+        CREATE: '/api/orders',
+        GET_ALL: '/api/orders',
+        CURRENT: '/api/orders/current',
+        HISTORY: '/api/orders/history',
+        GET_BY_ID: (id: string) => `/api/orders/${id}`,
+    },
+    PAYMENT: {
+        KHALTI_SEND_OTP: '/api/payment/khalti/send-otp',
+        KHALTI_VERIFY_OTP: '/api/payment/khalti/verify-otp',
+    },
 }
