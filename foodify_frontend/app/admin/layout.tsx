@@ -1,22 +1,21 @@
-import Header from "./_components/Header";
-import Sidebar from "./_components/Sidebar";
+"use client";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+import { useState } from "react";
+import AdminSidebar from "./_components/AdminSidebar";
+import AdminHeader from "./_components/AdminHeader";
+
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
+    const [mobileOpen, setMobileOpen] = useState(false);
+
     return (
-        <div className='flex w-full min-h-screen'>
-            <div className='page-wrapper flex w-full'>
-                {/* Header/sidebar */}
-                <div className='xl:block hidden'>
-                    <Sidebar />
-                </div>
-                <div className='w-full bg-background'>
-                    {/* Top Header  */}
-                    <Header />
-                    {/* Body Content  */}
-                    <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 p-2">
-                        {children}
-                    </main>
-                </div>
+        <div className="min-h-screen bg-muted/30">
+            <AdminSidebar mobileOpen={mobileOpen} onClose={() => setMobileOpen(false)} />
+
+            <div className="lg:ml-60">
+                <AdminHeader onMenuClick={() => setMobileOpen(true)} />
+                <main className="p-4 sm:p-6">
+                    {children}
+                </main>
             </div>
         </div>
     );

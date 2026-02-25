@@ -3,7 +3,7 @@ export const API = {
         LOGIN: '/api/auth/login',
         REGISTER: '/api/auth/register',
         PROFILE: '/api/auth/profile',
-        UPDATE_PROFILE: '/api/auth/',
+        UPDATE_PROFILE: '/api/auth/profile',
         REQUEST_PASSWORD_RESET: '/api/auth/request-password-reset',
         RESET_PASSWORD: (token: string) => `/api/auth/reset-password/${token}`,
     },
@@ -11,10 +11,30 @@ export const API = {
         USERS: {
             CREATE: '/api/admin/users',
             GET_ALL: '/api/admin/users',
-            GET_ONE: '/api/admin/users/',
-            UPDATE: '/api/admin/users/',
-            DELETE: '/api/admin/users/',
-        }
+            GET_ONE: (id: string) => `/api/admin/users/${id}`,
+            UPDATE: (id: string) => `/api/admin/users/${id}`,
+            DELETE: (id: string) => `/api/admin/users/${id}`,
+        },
+        RESTAURANTS: {
+            GET_ALL: '/api/admin/restaurants',
+            GET_ONE: (id: string) => `/api/admin/restaurants/${id}`,
+            CREATE: '/api/admin/restaurants',
+            UPDATE: (id: string) => `/api/admin/restaurants/${id}`,
+            DELETE: (id: string) => `/api/admin/restaurants/${id}`,
+        },
+        FOODS: {
+            GET_ALL: '/api/admin/foods',
+            GET_ONE: (id: string) => `/api/admin/foods/${id}`,
+            CREATE: '/api/admin/foods',
+            UPDATE: (id: string) => `/api/admin/foods/${id}`,
+            DELETE: (id: string) => `/api/admin/foods/${id}`,
+        },
+        ORDERS: {
+            GET_ALL: '/api/admin/orders',
+            UPDATE_STATUS: (id: string) => `/api/admin/orders/${id}/status`,
+        },
+        STATS: '/api/admin/stats',
+        REVIEWS: '/api/admin/reviews',
     },
     FOODS: {
         GET_ALL: '/api/foods',
@@ -47,4 +67,4 @@ export const API = {
         MY_REVIEWS: '/api/reviews/my',
         RESTAURANT: (restaurantId: string) => `/api/reviews/restaurant/${restaurantId}`,
     },
-}
+};

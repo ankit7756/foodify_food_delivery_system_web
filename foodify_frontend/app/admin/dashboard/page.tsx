@@ -222,8 +222,8 @@ export default function AdminDashboard() {
                                             <td className="px-5 py-3 text-muted-foreground">{user.phone}</td>
                                             <td className="px-5 py-3">
                                                 <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${user.role === "admin"
-                                                    ? "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400"
-                                                    : "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
+                                                        ? "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400"
+                                                        : "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
                                                     }`}>
                                                     {user.role}
                                                 </span>
@@ -269,8 +269,8 @@ export default function AdminDashboard() {
                                             key={p}
                                             onClick={() => fetchUsers(p)}
                                             className={`h-7 w-7 rounded-lg text-xs font-semibold transition-colors ${p === pagination.page
-                                                ? "bg-orange-500 text-white"
-                                                : "hover:bg-accent text-foreground"
+                                                    ? "bg-orange-500 text-white"
+                                                    : "hover:bg-accent text-foreground"
                                                 }`}
                                         >
                                             {p}
