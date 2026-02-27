@@ -155,21 +155,33 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
         }
     };
 
-    const handleReorder = () => {
+    const handleReorder = async () => {
         if (!order) return;
 
         let restaurantId: string | undefined;
 
         if (order.restaurantId && typeof order.restaurantId === "object") {
             const obj = order.restaurantId as any;
-            // Mongoose serializes _id → id in JSON responses, so check both
             restaurantId = obj._id?.toString() || obj.id?.toString();
-        } else if (order.restaurantId) {
-            restaurantId = order.restaurantId.toString();
+        } else if (order.restaurantId && typeof order.restaurantId === "string") {
+            restaurantId = order.restaurantId;
         }
 
         if (!restaurantId) {
-            alert("Could not find restaurant info. Please try again.");
+            try {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/restaurants/search?query=${encodeURIComponent(order.restaurantName)}`);
+                const data = await res.json();
+                const match = data.data?.find((r: any) => r.name === order.restaurantName);
+                if (match) {
+                    restaurantId = match._id;
+                }
+            } catch {
+                // search failed
+            }
+        }
+
+        if (!restaurantId) {
+            showToast("Could not find restaurant. It may no longer be available.", "error");
             return;
         }
 

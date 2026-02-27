@@ -12,31 +12,38 @@ import DeleteModal from "@/app/_components/DeleteModal";
 import Image from "next/image";
 
 const STATUS_COLORS: Record<string, string> = {
-    pending: "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400",
-    preparing: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
-    out_for_delivery: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400",
-    delivered: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
-    cancelled: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400",
+    pending: "bg-amber-400/10 text-amber-400 border border-amber-400/20",
+    preparing: "bg-blue-400/10 text-blue-400 border border-blue-400/20",
+    out_for_delivery: "bg-violet-400/10 text-violet-400 border border-violet-400/20",
+    delivered: "bg-emerald-400/10 text-emerald-400 border border-emerald-400/20",
+    cancelled: "bg-red-400/10 text-red-400 border border-red-400/20",
 };
 
 const STATUS_LABELS: Record<string, string> = {
-    pending: "Pending", preparing: "Preparing",
-    out_for_delivery: "Out for Delivery", delivered: "Delivered", cancelled: "Cancelled",
+    pending: "Pending",
+    preparing: "Preparing",
+    out_for_delivery: "Out for Delivery",
+    delivered: "Delivered",
+    cancelled: "Cancelled",
 };
 
-function StatCard({ label, value, icon: Icon, color, sub }: {
-    label: string; value: string | number; icon: any; color: string; sub?: string;
+function StatCard({ label, value, icon: Icon, accent, sub }: {
+    label: string;
+    value: string | number;
+    icon: any;
+    accent: string;
+    sub?: string;
 }) {
     return (
-        <div className="bg-background border border-border rounded-2xl p-5 shadow-sm">
-            <div className="flex items-center justify-between mb-3">
-                <p className="text-sm text-muted-foreground font-medium">{label}</p>
-                <div className={`h-10 w-10 rounded-xl flex items-center justify-center ${color}`}>
-                    <Icon className="h-5 w-5" />
+        <div className="bg-white/[0.03] border border-white/[0.07] rounded-xl p-4 hover:bg-white/[0.05] transition-colors">
+            <div className="flex items-center justify-between mb-4">
+                <div className={`h-8 w-8 rounded-lg flex items-center justify-center ${accent}`}>
+                    <Icon className="h-4 w-4" />
                 </div>
             </div>
-            <p className="text-3xl font-extrabold">{value}</p>
-            {sub && <p className="text-xs text-muted-foreground mt-1">{sub}</p>}
+            <p className="text-2xl font-bold text-white tracking-tight">{value}</p>
+            <p className="text-[11px] text-white/35 mt-0.5 font-medium">{label}</p>
+            {sub && <p className="text-[10px] text-white/20 mt-0.5">{sub}</p>}
         </div>
     );
 }
@@ -44,11 +51,11 @@ function StatCard({ label, value, icon: Icon, color, sub }: {
 function UserAvatar({ src, name }: { src?: string | null; name?: string }) {
     const initial = name?.[0]?.toUpperCase() ?? "U";
     if (src) return (
-        <Image src={src} alt={name ?? ""} width={32} height={32} unoptimized
-            className="h-8 w-8 rounded-full object-cover flex-shrink-0" />
+        <Image src={src} alt={name ?? ""} width={28} height={28} unoptimized
+            className="h-7 w-7 rounded-full object-cover flex-shrink-0 ring-1 ring-white/10" />
     );
     return (
-        <div className="h-8 w-8 rounded-full bg-gradient-to-br from-orange-400 to-pink-500 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+        <div className="h-7 w-7 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-[#0a0c12] text-[10px] font-black flex-shrink-0">
             {initial}
         </div>
     );
@@ -97,71 +104,79 @@ export default function AdminDashboard() {
 
     return (
         <div className="space-y-6">
-            <div>
-                <h1 className="text-2xl font-extrabold">Dashboard</h1>
-                <p className="text-muted-foreground text-sm mt-0.5">Welcome back! Here's what's happening.</p>
+
+            {/* Page header */}
+            <div className="flex items-end justify-between">
+                <div>
+                    <h1 className="text-xl font-bold text-white tracking-tight">Dashboard</h1>
+                    <p className="text-[13px] text-white/30 mt-0.5">Welcome back — here's the overview.</p>
+                </div>
+                <span className="text-[11px] text-white/20 font-medium">
+                    {new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}
+                </span>
             </div>
 
-            {/* Stats */}
+            {/* Stats grid */}
             {loadingStats ? (
-                <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+                <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3">
                     {Array.from({ length: 6 }).map((_, i) => (
-                        <div key={i} className="h-28 rounded-2xl bg-muted animate-pulse" />
+                        <div key={i} className="h-28 rounded-xl bg-white/[0.03] animate-pulse border border-white/[0.05]" />
                     ))}
                 </div>
             ) : (
-                <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+                <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3">
                     <StatCard label="Total Users" value={stats?.totalUsers ?? 0} icon={Users}
-                        color="bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400" />
+                        accent="bg-blue-400/10 text-blue-400" />
                     <StatCard label="Restaurants" value={stats?.totalRestaurants ?? 0} icon={UtensilsCrossed}
-                        color="bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400" />
-                    <StatCard label="Total Foods" value={stats?.totalFoods ?? 0} icon={ShoppingBag}
-                        color="bg-pink-100 text-pink-600 dark:bg-pink-900/30 dark:text-pink-400" />
+                        accent="bg-amber-400/10 text-amber-400" />
+                    <StatCard label="Foods" value={stats?.totalFoods ?? 0} icon={ShoppingBag}
+                        accent="bg-pink-400/10 text-pink-400" />
                     <StatCard label="Total Orders" value={stats?.totalOrders ?? 0} icon={ClipboardList}
-                        color="bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400" />
+                        accent="bg-violet-400/10 text-violet-400" />
                     <StatCard label="Orders This Month" value={stats?.ordersThisMonth ?? 0} icon={TrendingUp}
-                        color="bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400" />
-                    <StatCard label="Revenue This Month" value={`Rs. ${(stats?.revenueThisMonth ?? 0).toLocaleString()}`}
-                        icon={TrendingUp} color="bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400"
-                        sub="Delivered orders only" />
+                        accent="bg-emerald-400/10 text-emerald-400" />
+                    <StatCard label="Revenue" value={`Rs. ${(stats?.revenueThisMonth ?? 0).toLocaleString()}`}
+                        icon={TrendingUp} accent="bg-amber-400/10 text-amber-400" sub="Delivered orders only" />
                 </div>
             )}
 
             {/* Recent Orders */}
             {stats?.recentOrders?.length > 0 && (
-                <div className="bg-background border border-border rounded-2xl shadow-sm overflow-hidden">
-                    <div className="flex items-center justify-between px-5 py-4 border-b border-border">
-                        <h2 className="font-bold text-sm">Recent Orders</h2>
-                        <Link href="/admin/orders" className="text-xs text-orange-500 hover:underline font-medium">View all</Link>
+                <div className="bg-white/[0.03] border border-white/[0.07] rounded-xl overflow-hidden">
+                    <div className="flex items-center justify-between px-5 py-3.5 border-b border-white/[0.06]">
+                        <h2 className="text-[13px] font-semibold text-white/80">Recent Orders</h2>
+                        <Link href="/admin/orders" className="text-[11px] text-amber-400/70 hover:text-amber-400 font-medium transition-colors">
+                            View all →
+                        </Link>
                     </div>
                     <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
+                        <table className="w-full text-[13px]">
                             <thead>
-                                <tr className="border-b border-border bg-muted/30">
-                                    <th className="text-left px-5 py-3 text-xs font-semibold text-muted-foreground">Customer</th>
-                                    <th className="text-left px-5 py-3 text-xs font-semibold text-muted-foreground">Restaurant</th>
-                                    <th className="text-left px-5 py-3 text-xs font-semibold text-muted-foreground">Amount</th>
-                                    <th className="text-left px-5 py-3 text-xs font-semibold text-muted-foreground">Status</th>
-                                    <th className="text-left px-5 py-3 text-xs font-semibold text-muted-foreground">Date</th>
+                                <tr className="border-b border-white/[0.05]">
+                                    <th className="text-left px-5 py-3 text-[10px] font-bold text-white/20 uppercase tracking-widest">Customer</th>
+                                    <th className="text-left px-5 py-3 text-[10px] font-bold text-white/20 uppercase tracking-widest">Restaurant</th>
+                                    <th className="text-left px-5 py-3 text-[10px] font-bold text-white/20 uppercase tracking-widest">Amount</th>
+                                    <th className="text-left px-5 py-3 text-[10px] font-bold text-white/20 uppercase tracking-widest">Status</th>
+                                    <th className="text-left px-5 py-3 text-[10px] font-bold text-white/20 uppercase tracking-widest">Date</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-border/50">
+                            <tbody className="divide-y divide-white/[0.04]">
                                 {stats.recentOrders.map((order: any) => (
-                                    <tr key={order._id} className="hover:bg-accent/30 transition-colors">
+                                    <tr key={order._id} className="hover:bg-white/[0.02] transition-colors">
                                         <td className="px-5 py-3">
-                                            <p className="font-medium truncate max-w-[140px]">
+                                            <p className="font-medium text-white/80 truncate max-w-[140px]">
                                                 {order.userId?.fullName ?? "Unknown"}
                                             </p>
-                                            <p className="text-xs text-muted-foreground">{order.userId?.email ?? ""}</p>
+                                            <p className="text-[11px] text-white/25">{order.userId?.email ?? ""}</p>
                                         </td>
-                                        <td className="px-5 py-3 text-muted-foreground">{order.restaurantName}</td>
-                                        <td className="px-5 py-3 font-semibold">Rs. {order.totalAmount}</td>
+                                        <td className="px-5 py-3 text-white/40 truncate max-w-[120px]">{order.restaurantName}</td>
+                                        <td className="px-5 py-3 font-semibold text-white/70">Rs. {order.totalAmount}</td>
                                         <td className="px-5 py-3">
-                                            <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${STATUS_COLORS[order.status] ?? ""}`}>
+                                            <span className={`text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wide ${STATUS_COLORS[order.status] ?? ""}`}>
                                                 {STATUS_LABELS[order.status] ?? order.status}
                                             </span>
                                         </td>
-                                        <td className="px-5 py-3 text-muted-foreground text-xs">
+                                        <td className="px-5 py-3 text-white/25 text-[11px]">
                                             {new Date(order.createdAt).toLocaleDateString("en-NP", { day: "numeric", month: "short" })}
                                         </td>
                                     </tr>
@@ -173,74 +188,84 @@ export default function AdminDashboard() {
             )}
 
             {/* Users table */}
-            <div className="bg-background border border-border rounded-2xl shadow-sm overflow-hidden">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-5 py-4 border-b border-border">
-                    <h2 className="font-bold text-sm">All Users</h2>
+            <div className="bg-white/[0.03] border border-white/[0.07] rounded-xl overflow-hidden">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-5 py-3.5 border-b border-white/[0.06]">
+                    <h2 className="text-[13px] font-semibold text-white/80">All Users</h2>
                     <div className="flex items-center gap-2">
-                        <form onSubmit={handleSearch} className="flex items-center gap-2 bg-muted/50 rounded-xl px-3 py-2">
-                            <Search className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                        <form onSubmit={handleSearch} className="flex items-center gap-2 bg-white/[0.05] border border-white/[0.08] rounded-lg px-3 py-1.5">
+                            <Search className="h-3.5 w-3.5 text-white/25 flex-shrink-0" />
                             <input
                                 type="text"
                                 value={searchInput}
                                 onChange={(e) => setSearchInput(e.target.value)}
                                 placeholder="Search users..."
-                                className="bg-transparent text-sm outline-none w-44 placeholder:text-muted-foreground"
+                                className="bg-transparent text-[12px] text-white/70 outline-none w-36 placeholder:text-white/20"
                             />
                         </form>
-                        <Link href="/admin/users/add"
-                            className="px-4 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-pink-600 text-white text-xs font-bold hover:from-orange-600 hover:to-pink-700 transition-all whitespace-nowrap">
+                        <Link
+                            href="/admin/users/add"
+                            className="px-3.5 py-1.5 rounded-lg bg-amber-400 text-[#0a0c12] text-[12px] font-bold hover:bg-amber-300 transition-colors whitespace-nowrap"
+                        >
                             + Add User
                         </Link>
                     </div>
                 </div>
 
                 {loadingUsers ? (
-                    <div className="p-8 flex justify-center"><Loader2 className="h-6 w-6 animate-spin text-orange-500" /></div>
+                    <div className="p-12 flex justify-center">
+                        <Loader2 className="h-5 w-5 animate-spin text-amber-400/60" />
+                    </div>
                 ) : (
                     <>
                         <div className="overflow-x-auto">
-                            <table className="w-full text-sm">
+                            <table className="w-full text-[13px]">
                                 <thead>
-                                    <tr className="border-b border-border bg-muted/30">
-                                        <th className="text-left px-5 py-3 text-xs font-semibold text-muted-foreground">User</th>
-                                        <th className="text-left px-5 py-3 text-xs font-semibold text-muted-foreground">Email</th>
-                                        <th className="text-left px-5 py-3 text-xs font-semibold text-muted-foreground">Phone</th>
-                                        <th className="text-left px-5 py-3 text-xs font-semibold text-muted-foreground">Role</th>
-                                        <th className="text-left px-5 py-3 text-xs font-semibold text-muted-foreground">Actions</th>
+                                    <tr className="border-b border-white/[0.05]">
+                                        <th className="text-left px-5 py-3 text-[10px] font-bold text-white/20 uppercase tracking-widest">User</th>
+                                        <th className="text-left px-5 py-3 text-[10px] font-bold text-white/20 uppercase tracking-widest">Email</th>
+                                        <th className="text-left px-5 py-3 text-[10px] font-bold text-white/20 uppercase tracking-widest">Phone</th>
+                                        <th className="text-left px-5 py-3 text-[10px] font-bold text-white/20 uppercase tracking-widest">Role</th>
+                                        <th className="text-left px-5 py-3 text-[10px] font-bold text-white/20 uppercase tracking-widest">Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-border/50">
+                                <tbody className="divide-y divide-white/[0.04]">
                                     {users.map((user) => (
-                                        <tr key={user._id} className="hover:bg-accent/30 transition-colors">
+                                        <tr key={user._id} className="hover:bg-white/[0.02] transition-colors group">
                                             <td className="px-5 py-3">
                                                 <div className="flex items-center gap-2.5">
                                                     <UserAvatar src={user.profileImage} name={user.fullName} />
-                                                    <p className="font-medium">{user.fullName}</p>
+                                                    <p className="font-medium text-white/80">{user.fullName}</p>
                                                 </div>
                                             </td>
-                                            <td className="px-5 py-3 text-muted-foreground">{user.email}</td>
-                                            <td className="px-5 py-3 text-muted-foreground">{user.phone}</td>
+                                            <td className="px-5 py-3 text-white/35">{user.email}</td>
+                                            <td className="px-5 py-3 text-white/35">{user.phone}</td>
                                             <td className="px-5 py-3">
-                                                <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${user.role === "admin"
-                                                    ? "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400"
-                                                    : "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
+                                                <span className={`text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest ${user.role === "admin"
+                                                    ? "bg-violet-400/10 text-violet-400 border border-violet-400/20"
+                                                    : "bg-blue-400/10 text-blue-400 border border-blue-400/20"
                                                     }`}>
                                                     {user.role}
                                                 </span>
                                             </td>
                                             <td className="px-5 py-3">
-                                                <div className="flex items-center gap-1.5">
-                                                    <Link href={`/admin/users/${user._id}`}
-                                                        className="p-1.5 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 text-blue-500 transition-colors">
-                                                        <Eye className="h-4 w-4" />
+                                                <div className="flex items-center gap-1">
+                                                    <Link
+                                                        href={`/admin/users/${user._id}`}
+                                                        className="p-1.5 rounded-md text-white/25 hover:text-blue-400 hover:bg-blue-400/10 transition-all"
+                                                    >
+                                                        <Eye className="h-3.5 w-3.5" />
                                                     </Link>
-                                                    <Link href={`/admin/users/${user._id}/edit`}
-                                                        className="p-1.5 rounded-lg hover:bg-orange-50 dark:hover:bg-orange-900/20 text-orange-500 transition-colors">
-                                                        <Pencil className="h-4 w-4" />
+                                                    <Link
+                                                        href={`/admin/users/${user._id}/edit`}
+                                                        className="p-1.5 rounded-md text-white/25 hover:text-amber-400 hover:bg-amber-400/10 transition-all"
+                                                    >
+                                                        <Pencil className="h-3.5 w-3.5" />
                                                     </Link>
-                                                    <button onClick={() => setDeleteTarget(user)}
-                                                        className="p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-red-500 transition-colors">
-                                                        <Trash2 className="h-4 w-4" />
+                                                    <button
+                                                        onClick={() => setDeleteTarget(user)}
+                                                        className="p-1.5 rounded-md text-white/25 hover:text-red-400 hover:bg-red-400/10 transition-all"
+                                                    >
+                                                        <Trash2 className="h-3.5 w-3.5" />
                                                     </button>
                                                 </div>
                                             </td>
@@ -252,25 +277,25 @@ export default function AdminDashboard() {
 
                         {/* Pagination */}
                         {pagination.totalPages > 1 && (
-                            <div className="flex items-center justify-between px-5 py-3 border-t border-border">
-                                <p className="text-xs text-muted-foreground">
+                            <div className="flex items-center justify-between px-5 py-3 border-t border-white/[0.06]">
+                                <p className="text-[11px] text-white/20">
                                     {pagination.totalItems} users total
                                 </p>
                                 <div className="flex items-center gap-1">
                                     <button
                                         onClick={() => fetchUsers(pagination.page - 1)}
                                         disabled={pagination.page === 1}
-                                        className="p-1.5 rounded-lg hover:bg-accent disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                                        className="p-1.5 rounded-md text-white/25 hover:text-white/70 hover:bg-white/[0.06] disabled:opacity-20 disabled:cursor-not-allowed transition-all"
                                     >
-                                        <ChevronLeft className="h-4 w-4" />
+                                        <ChevronLeft className="h-3.5 w-3.5" />
                                     </button>
                                     {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map((p) => (
                                         <button
                                             key={p}
                                             onClick={() => fetchUsers(p)}
-                                            className={`h-7 w-7 rounded-lg text-xs font-semibold transition-colors ${p === pagination.page
-                                                ? "bg-orange-500 text-white"
-                                                : "hover:bg-accent text-foreground"
+                                            className={`h-7 w-7 rounded-md text-[12px] font-semibold transition-all ${p === pagination.page
+                                                ? "bg-amber-400 text-[#0a0c12]"
+                                                : "text-white/30 hover:text-white/70 hover:bg-white/[0.06]"
                                                 }`}
                                         >
                                             {p}
@@ -279,9 +304,9 @@ export default function AdminDashboard() {
                                     <button
                                         onClick={() => fetchUsers(pagination.page + 1)}
                                         disabled={pagination.page === pagination.totalPages}
-                                        className="p-1.5 rounded-lg hover:bg-accent disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                                        className="p-1.5 rounded-md text-white/25 hover:text-white/70 hover:bg-white/[0.06] disabled:opacity-20 disabled:cursor-not-allowed transition-all"
                                     >
-                                        <ChevronRight className="h-4 w-4" />
+                                        <ChevronRight className="h-3.5 w-3.5" />
                                     </button>
                                 </div>
                             </div>

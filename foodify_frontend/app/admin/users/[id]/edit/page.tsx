@@ -36,21 +36,28 @@ export default function EditUserPage({ params }: { params: Promise<{ id: string 
 
     if (loading) return (
         <div className="flex items-center justify-center h-64">
-            <Loader2 className="h-8 w-8 animate-spin text-orange-500" />
+            <Loader2 className="h-5 w-5 animate-spin text-amber-400/60" />
         </div>
     );
 
     return (
-        <div className="space-y-4">
+        <div className="space-y-5">
+            {/* Back nav */}
             <div className="flex items-center gap-3">
-                <button onClick={() => router.back()} className="p-2 rounded-xl hover:bg-accent transition-colors">
-                    <ChevronLeft className="h-5 w-5" />
+                <button
+                    onClick={() => router.back()}
+                    className="p-1.5 rounded-lg text-white/30 hover:text-white/70 hover:bg-white/[0.06] transition-all"
+                >
+                    <ChevronLeft className="h-4.5 w-4.5" />
                 </button>
                 <div>
-                    <h1 className="text-xl font-extrabold">Edit User</h1>
-                    <p className="text-sm text-muted-foreground">Update {user?.fullName}'s information</p>
+                    <h1 className="text-[15px] font-semibold text-white/80 tracking-tight">Edit User</h1>
+                    {user?.fullName && (
+                        <p className="text-[11px] text-white/25 mt-0.5">Updating — {user.fullName}</p>
+                    )}
                 </div>
             </div>
+
             {user && <UserForm mode="edit" initialData={user} onSubmit={handleSubmit} />}
         </div>
     );

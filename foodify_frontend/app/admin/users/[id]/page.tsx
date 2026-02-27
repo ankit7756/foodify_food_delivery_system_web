@@ -13,13 +13,13 @@ import DeleteModal from "@/app/_components/DeleteModal";
 
 function InfoRow({ icon: Icon, label, value }: { icon: any; label: string; value: string }) {
     return (
-        <div className="flex items-center gap-4 py-3.5 border-b border-border/50 last:border-0">
-            <div className="h-9 w-9 rounded-xl bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center flex-shrink-0">
-                <Icon className="h-4 w-4 text-orange-500" />
+        <div className="flex items-center gap-4 py-3 border-b border-white/[0.05] last:border-0">
+            <div className="h-8 w-8 rounded-lg bg-white/[0.05] flex items-center justify-center flex-shrink-0">
+                <Icon className="h-3.5 w-3.5 text-amber-400/70" />
             </div>
-            <div>
-                <p className="text-xs text-muted-foreground">{label}</p>
-                <p className="text-sm font-medium">{value || "—"}</p>
+            <div className="min-w-0">
+                <p className="text-[10px] font-semibold text-white/25 uppercase tracking-widest">{label}</p>
+                <p className="text-[13px] font-medium text-white/70 mt-0.5 truncate">{value || "—"}</p>
             </div>
         </div>
     );
@@ -48,71 +48,88 @@ export default function ViewUserPage({ params }: { params: Promise<{ id: string 
 
     if (loading) return (
         <div className="flex items-center justify-center h-64">
-            <Loader2 className="h-8 w-8 animate-spin text-orange-500" />
+            <Loader2 className="h-5 w-5 animate-spin text-amber-400/60" />
         </div>
     );
 
-    if (!user) return <div className="text-center py-20 text-muted-foreground">User not found.</div>;
+    if (!user) return (
+        <div className="text-center py-20 text-white/20 text-[13px]">User not found.</div>
+    );
 
     const joinedDate = user.createdAt
         ? new Date(user.createdAt).toLocaleDateString("en-NP", { year: "numeric", month: "long", day: "numeric" })
         : "—";
 
     return (
-        <div className="max-w-2xl mx-auto space-y-4">
+        <div className="max-w-xl space-y-4">
+
+            {/* Back nav */}
             <div className="flex items-center gap-3">
-                <button onClick={() => router.back()}
-                    className="p-2 rounded-xl hover:bg-accent transition-colors">
-                    <ChevronLeft className="h-5 w-5" />
+                <button
+                    onClick={() => router.back()}
+                    className="p-1.5 rounded-lg text-white/30 hover:text-white/70 hover:bg-white/[0.06] transition-all"
+                >
+                    <ChevronLeft className="h-4.5 w-4.5" />
                 </button>
-                <h1 className="text-xl font-extrabold">View User</h1>
+                <h1 className="text-[15px] font-semibold text-white/80">User Profile</h1>
             </div>
 
             {/* Profile card */}
-            <div className="bg-background border border-border rounded-2xl overflow-hidden shadow-sm">
-                <div className="bg-gradient-to-br from-gray-800 to-gray-900 pt-8 pb-14 px-6 flex flex-col items-center text-center relative">
-                    <div className="h-20 w-20 rounded-full overflow-hidden ring-4 ring-white/20 shadow-lg">
+            <div className="bg-white/[0.03] border border-white/[0.07] rounded-xl overflow-hidden">
+
+                {/* Hero */}
+                <div className="relative px-6 pt-8 pb-6 flex flex-col items-center text-center border-b border-white/[0.06]">
+                    {/* subtle grid bg */}
+                    <div className="absolute inset-0 opacity-[0.03]"
+                        style={{ backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)", backgroundSize: "20px 20px" }} />
+
+                    <div className="relative h-20 w-20 rounded-full overflow-hidden ring-1 ring-white/10 shadow-xl">
                         {user.profileImage ? (
                             <Image src={user.profileImage} alt={user.fullName} width={80} height={80} unoptimized className="object-cover w-full h-full" />
                         ) : (
-                            <div className="w-full h-full bg-gradient-to-br from-orange-400 to-pink-500 flex items-center justify-center text-white text-2xl font-bold">
+                            <div className="w-full h-full bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-[#0a0c12] text-2xl font-black">
                                 {user.fullName?.[0]?.toUpperCase() ?? "U"}
                             </div>
                         )}
                     </div>
-                    <h2 className="text-xl font-bold text-white mt-3">{user.fullName}</h2>
-                    <p className="text-white/60 text-sm">@{user.username}</p>
-                    <span className={`mt-2 text-xs font-bold px-3 py-1 rounded-full ${user.role === "admin"
-                            ? "bg-purple-500/30 text-purple-300"
-                            : "bg-blue-500/30 text-blue-300"
+
+                    <h2 className="text-[17px] font-bold text-white mt-3 tracking-tight">{user.fullName}</h2>
+                    <p className="text-[12px] text-white/30 mt-0.5">@{user.username}</p>
+
+                    <span className={`mt-3 text-[10px] font-bold px-2.5 py-1 rounded uppercase tracking-widest border ${user.role === "admin"
+                        ? "bg-violet-400/10 text-violet-400 border-violet-400/20"
+                        : "bg-blue-400/10 text-blue-400 border-blue-400/20"
                         }`}>
                         {user.role}
                     </span>
                 </div>
 
-                <div className="-mt-8 mx-4 mb-4 bg-background border border-border rounded-2xl px-5 py-1 shadow-sm">
-                    <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground pt-4 pb-2">Details</h3>
+                {/* Details */}
+                <div className="px-5 py-2">
+                    <p className="text-[10px] font-bold text-white/15 uppercase tracking-widest pt-3 pb-1">Details</p>
                     <InfoRow icon={User} label="Full Name" value={user.fullName} />
                     <InfoRow icon={AtSign} label="Username" value={`@${user.username}`} />
                     <InfoRow icon={Mail} label="Email" value={user.email} />
                     <InfoRow icon={Phone} label="Phone" value={user.phone} />
                     <InfoRow icon={Shield} label="Role" value={user.role} />
-                    <InfoRow icon={Calendar} label="Joined" value={joinedDate} />
+                    <InfoRow icon={Calendar} label="Member since" value={joinedDate} />
                 </div>
             </div>
 
             {/* Actions */}
-            <div className="flex gap-3">
-                <Link href={`/admin/users/${id}/edit`}
-                    className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-pink-600 text-white font-bold text-sm hover:from-orange-600 hover:to-pink-700 transition-all">
-                    <Pencil className="h-4 w-4" />
+            <div className="flex gap-2.5">
+                <Link
+                    href={`/admin/users/${id}/edit`}
+                    className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg bg-amber-400 text-[#0a0c12] text-[13px] font-bold hover:bg-amber-300 transition-colors"
+                >
+                    <Pencil className="h-3.5 w-3.5" />
                     Edit User
                 </Link>
                 <button
                     onClick={() => setShowDelete(true)}
-                    className="flex items-center gap-2 px-5 py-3 rounded-xl border border-red-300 dark:border-red-800 text-red-500 font-bold text-sm hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                    className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-red-500/20 text-red-400/70 text-[13px] font-semibold hover:text-red-400 hover:bg-red-400/[0.06] hover:border-red-400/30 transition-all"
                 >
-                    <Trash2 className="h-4 w-4" />
+                    <Trash2 className="h-3.5 w-3.5" />
                     Delete
                 </button>
             </div>

@@ -10,15 +10,13 @@ interface UserFormProps {
     mode: "add" | "edit";
 }
 
-// ✅ OUTSIDE the component — never recreated on re-render
-const inputCls = "w-full rounded-xl border border-border bg-muted/30 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 placeholder:text-muted-foreground";
+const inputCls = "w-full rounded-lg border border-white/[0.08] bg-white/[0.04] px-3.5 py-2.5 text-[13px] text-white/90 focus:outline-none focus:ring-1 focus:ring-amber-400/60 focus:border-amber-400/40 placeholder:text-white/20 transition-all";
 
-// ✅ OUTSIDE the component — stable reference, inputs never lose focus
 function Field({ label, icon: Icon, children }: { label: string; icon: any; children: React.ReactNode }) {
     return (
         <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-foreground/70 flex items-center gap-1.5">
-                <Icon className="h-3.5 w-3.5 text-orange-500" />
+            <label className="text-[11px] font-semibold text-white/35 uppercase tracking-widest flex items-center gap-1.5">
+                <Icon className="h-3 w-3 text-amber-400/60" />
                 {label}
             </label>
             {children}
@@ -87,39 +85,48 @@ export default function UserForm({ initialData, onSubmit, mode }: UserFormProps)
     return (
         <form onSubmit={handleSubmit} className="space-y-4 max-w-2xl">
 
-            {/* Photo */}
-            <div className="bg-background border border-border rounded-2xl p-6 shadow-sm flex flex-col items-center gap-4">
-                <div className="relative">
-                    <div className="h-24 w-24 rounded-full overflow-hidden ring-4 ring-orange-200 dark:ring-orange-800/50 shadow-md">
+            {/* Photo upload */}
+            <div className="bg-white/[0.03] border border-white/[0.07] rounded-xl p-6 flex flex-col items-center gap-4">
+                <div className="relative group">
+                    <div className="h-20 w-20 rounded-full overflow-hidden ring-1 ring-white/10">
                         {currentImage ? (
-                            <Image src={currentImage} alt="Preview" width={96} height={96} unoptimized className="object-cover w-full h-full" />
+                            <Image src={currentImage} alt="Preview" width={80} height={80} unoptimized className="object-cover w-full h-full" />
                         ) : (
-                            <div className="w-full h-full bg-gradient-to-br from-orange-400 to-pink-500 flex items-center justify-center text-white text-2xl font-bold">
+                            <div className="w-full h-full bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-[#0a0c12] text-xl font-black">
                                 {fullName?.[0]?.toUpperCase() ?? "U"}
                             </div>
                         )}
                     </div>
-                    <button type="button" onClick={() => fileRef.current?.click()}
-                        className="absolute bottom-0 right-0 h-8 w-8 rounded-full bg-orange-500 text-white flex items-center justify-center shadow-md border-2 border-background hover:bg-orange-600 transition-colors">
-                        <Camera className="h-4 w-4" />
+                    <button
+                        type="button"
+                        onClick={() => fileRef.current?.click()}
+                        className="absolute bottom-0 right-0 h-7 w-7 rounded-full bg-amber-400 text-[#0a0c12] flex items-center justify-center shadow-lg hover:bg-amber-300 transition-colors border-2 border-[#0a0c12]"
+                    >
+                        <Camera className="h-3.5 w-3.5" />
                     </button>
                     {preview && (
-                        <button type="button" onClick={() => { setPreview(null); setFile(null); }}
-                            className="absolute top-0 right-0 h-6 w-6 rounded-full bg-red-500 text-white flex items-center justify-center shadow border-2 border-background">
+                        <button
+                            type="button"
+                            onClick={() => { setPreview(null); setFile(null); }}
+                            className="absolute top-0 right-0 h-5 w-5 rounded-full bg-red-500/90 text-white flex items-center justify-center border-2 border-[#0a0c12]"
+                        >
                             <X className="h-3 w-3" />
                         </button>
                     )}
                 </div>
-                <button type="button" onClick={() => fileRef.current?.click()}
-                    className="text-sm font-semibold text-orange-500 hover:text-orange-600 transition-colors">
-                    {preview ? "Change Photo" : "Upload Photo"}
+                <button
+                    type="button"
+                    onClick={() => fileRef.current?.click()}
+                    className="text-[12px] font-semibold text-amber-400/70 hover:text-amber-400 transition-colors"
+                >
+                    {preview ? "Change photo" : "Upload photo"}
                 </button>
                 <input ref={fileRef} type="file" accept="image/*" onChange={handleFile} className="hidden" />
             </div>
 
-            {/* Fields */}
-            <div className="bg-background border border-border rounded-2xl p-5 shadow-sm space-y-4">
-                <h3 className="font-bold text-sm text-muted-foreground uppercase tracking-wider">User Details</h3>
+            {/* User details */}
+            <div className="bg-white/[0.03] border border-white/[0.07] rounded-xl p-5 space-y-5">
+                <p className="text-[10px] font-bold text-white/20 uppercase tracking-widest">User Details</p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <Field label="Full Name" icon={User}>
@@ -146,14 +153,15 @@ export default function UserForm({ initialData, onSubmit, mode }: UserFormProps)
                     </Field>
                 </div>
 
-                <div className="border-t border-border pt-4">
-                    <h3 className="font-bold text-sm text-muted-foreground uppercase tracking-wider mb-4">
-                        {mode === "edit" ? "Change Password (optional)" : "Password"}
-                    </h3>
+                {/* Password section */}
+                <div className="border-t border-white/[0.06] pt-5 space-y-4">
+                    <p className="text-[10px] font-bold text-white/20 uppercase tracking-widest">
+                        {mode === "edit" ? "Change Password — optional" : "Password"}
+                    </p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <Field label="Password" icon={Lock}>
                             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
-                                placeholder={mode === "edit" ? "Leave blank to keep current" : "Min 6 characters"}
+                                placeholder={mode === "edit" ? "Leave blank to keep" : "Min 6 characters"}
                                 className={inputCls} required={mode === "add"} />
                         </Field>
                         <Field label="Confirm Password" icon={Lock}>
@@ -163,20 +171,25 @@ export default function UserForm({ initialData, onSubmit, mode }: UserFormProps)
                     </div>
                 </div>
 
+                {/* Error */}
                 {error && (
-                    <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl px-4 py-3 text-sm text-red-600">
+                    <div className="bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-3 text-[12px] text-red-400">
                         {error}
                     </div>
                 )}
 
-                <button type="submit" disabled={loading || success}
-                    className={`w-full flex items-center justify-center gap-2 py-3.5 rounded-xl font-bold text-sm transition-all disabled:cursor-not-allowed ${success
-                            ? "bg-green-500 text-white"
-                            : "bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-600 hover:to-pink-700 text-white disabled:opacity-70"
-                        }`}>
+                {/* Submit */}
+                <button
+                    type="submit"
+                    disabled={loading || success}
+                    className={`w-full flex items-center justify-center gap-2 py-3 rounded-lg text-[13px] font-semibold transition-all disabled:cursor-not-allowed ${success
+                        ? "bg-green-500/20 text-green-400 border border-green-500/30"
+                        : "bg-amber-400 text-[#0a0c12] hover:bg-amber-300 disabled:opacity-50"
+                        }`}
+                >
                     {loading ? <Loader2 className="h-4 w-4 animate-spin" /> :
-                        success ? <><Check className="h-4 w-4" /> {mode === "add" ? "User Created!" : "Changes Saved!"}</> :
-                            mode === "add" ? "Create User" : "Save Changes"}
+                        success ? <><Check className="h-4 w-4" /> {mode === "add" ? "User created" : "Changes saved"}</> :
+                            mode === "add" ? "Create user" : "Save changes"}
                 </button>
             </div>
         </form>
